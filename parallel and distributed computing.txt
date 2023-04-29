@@ -1,0 +1,11 @@
+Parallel vs distributed computing
+
+How does parallel computing work? It either uses one machine with multiple processors, or lots of machines cooperating in a network. There are 3 distinct architectures.
+
+    1) Shared memory parallel computers use multiple processors to access the same memory resources. Examples of shared memory parallel architecture are modern laptops, desktops, and smartphones.
+    2) Distributed memory parallel computers use multiple processors, each with their own memory, connected over a network. Examples of distributed systems include cloud computing, distributed rendering of computer graphics, and shared resource systems like SETI [17].
+    3) Hybrid memory parallel systems combine shared-memory parallel computers and distributed memory networks. Most “distributed memory” networks are actually hybrids. You may have thousands of desktops and laptops with multi-core processors all connected in a network and working on a massive problem.
+
+
+info from :
+https://www.hp.com/us-en/shop/tech-takes/parallel-computing-and-its-modern-uses

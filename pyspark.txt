@@ -1,0 +1,38 @@
+!pip install pyspark
+
+import pyspark as ps
+
+spark = ps.sql.SparkSession.builder.appName("session1").getOrCreate()
+spark
+
+df_ps = spark.read.option("header","true").csv("car_ad.csv")
+df_ps
+
+df_ps.printSchema()
+take all row as string so,
+df_ps = spark.read.option("header","true").csv("car_ad.csv", inferSchema=True)
+
+df_ps = spark.read.csv("car_ad.csv", inferSchema=True, header=True)
+
+df_ps.head(2)
+
+df_ps.column
+
+df_ps.dtypes
+
+df_ps.describe().show()
+
+df_ps.select(['car','price']).show()
+
+df_ps.select(['car','price']).describe()
+
+df_ps = df_ps.drop("body","registration","model","drive")
+
+df_ps1 = df_ps.withColumn("new_col",df_ps["mileage"]+2)
+
+
+
+==============
+df.filter(df["country_code"]=="IN").groupBy("state_id").count().sort("count",ascending=False).show(10)
+
+df.filter(df["country_code"]=="IN").groupBy("state_id").agg({"id":"count"}).show(5)

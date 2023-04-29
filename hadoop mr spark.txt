@@ -1,0 +1,70 @@
+hadoop works on principle of data locality
+means data is processed where it is kept, code is going to the data
+if data is of 128 mb and code is of 28kb then its easy to move code not data
+
+
+map reduce consist of 2 important part:-
+map and reduce
+input and output of map is a key value pair
+input and output of reduce is also a key value pair
+
+now, we have 500 mb of file which is stored in hdfs, we have to run mr on it as word count/
+content of file can be :
+my name is hello
+hello, hello
+....
+
+as mr takes key value pair so, there is one record reader, which converts each input line into key value. it will take each line and add a key to it, like :-
+(12389, my name is hello)
+(12346, hello, hello)
+
+
+record reader's code is already written there, we donot have to touch it.
+we developer have to write the map code
+and then reduce code also.
+
+
+mapper code as :-
+ignore the key, take the value only
+split with space
+write code to give output as
+(my, 1)
+(name, 1)
+(is, 1)
+(hello, 1)
+(hello,,1)
+(hello, 1)
+
+the same thing is done in other data nodes as well
+and this is not the final output, this is the intermidiate output.
+
+in mapper data is resides on the same machine, only code comes to it.
+to availabel code for reduce, data moves to another node, reducer node and the process called shuffle, moving the output of the mapper to the reducer machine.
+
+shuffle and sorting is done on reducer machine and we developer donot have to write the code for shuffle and sort, system will take care, give output as:
+(are, {1,1})
+(hello, {1,1,1,1})
+...
+
+we have to write the code for reduce part after 
+(are, 2)
+(hello, 4)
+==================================
+=========================
+
+apache spark is 
+general purpose,
+in memory,
+compute engine
+
+1) it is the alternative(not replacement) of map reduce.
+2) in memory means computation done inside memory(RAM),
+3) compute engine means processing/compute,
+4) general purpose mean we can do many things here. in hadoop(hdfs, mr, yarn), we have to learn other technologies like pig to process(convert unstructure to structure data), hive(to query data using SQL), sqoop(to injest data from db to hdfs), mahout(for ml). but here in spark all things are on one umbrella. we can use spark to compute, inject, query data and also ml libaries as well and many more.
+additional, in mr, we have to convert every processing task in key value pair but in spark we can do many activities like filer, map, reduce, sort,....
+
+in mr, if we have 5 map task then we have to read and write 5 different times. that increase the time. but in spark there is in-memory computation so, only one read, processing happens and one write activity atlast, in most idle case(case can change but remain faster than mr)
+
+spark is also lossly coupled with other technologies means we can use hdfs, local fs, aws s3 for storage. can use YARN, mesos, kubernated for resource manager.
+that's why it is said as plug and play compute engine. we can plug it to any other technologies and do out task.
+

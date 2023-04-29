@@ -1,0 +1,63 @@
+https://www.youtube.com/watch?v=AhcX44NQOzI
+
+Big Data Hadoop Spark Cluster on AWS EMR Cloud | Big Data on AWS Cloud | Production Big Data Cluster
+trendytech insight
+======================
+3 types of instance in aws:
+on demand instance	pay and use
+spot instance		can take back within 2 min short notice, 90% discount
+reserved instance	pay upfront fee, agree to long term use
+====================
+3 kinds of nodes in aws emr:-
+master	acts as a master node, name node
+core	both storage and compute, like data node
+task	only compute, no storage, when compute intensive
+
+spot instances are good choice for task node, as no data to be lost
+====================
+transient vs long running cluster
+
+transient automatic(step execution)	terminates automatically when all the steps done, step cluster
+long running cluster(cluster)	manually terminate it
+====================
+in aws emr:
+created 1 master and 2 cluster hadoop cluster
+access the hadoop from local machine through cmd by giving ssl command consisting of username and key. this will give access to the master node.
+cmd appear with hadoop@ip_add.
+to import the file to hdfs, first upload file from local host to s3 bucket and 
+then download it to the master node from hadoop@ip_add through "aws s3 cp s3://bucket_name/file_name ." command
+then use hdfs fs -put command to upload it to the hdfs.
+
+so do not confuse here, there is two storage here, one is of master node itself. and other is the hdfs which is distributed throughout the slave nodes.
+----------------
+history server stores the history and progrees of all the jobs in hadoop and should run on 18080 port and allow inbound traffic to it.
+-------
+from the hadoop commmand line we can access the hdfs by giving the command "hdfs fs ..." or "hadoop fs ..."
+------
+sequence of steps :-
+1) write scala program and save the jar file in local host
+2) upload the jar file to s3 bucket
+3) create AWS EMR instance with 1 master and 2 salve node
+4) access the hadoop master node from cmd
+5) below will copy the file from s3 to hadoop master node directory
+   aws s3 cp s3://bucket_name/file_name .
+7) create directory on the hdfs
+   
+   hadoop fs -mkdir /data
+6) below will copy to the from hadoop home to hdfs location
+   hadoop fs -put book-data.txt /data
+7) in scala or python code where data address is maintained as the s3 change it to the hdfs location as /data/book-data.txt
+
+there are 2 files:-
+one is the source code which run the map reduce job and is written in scala with jar extension
+other is data file with name book-data.txt
+
+jar file is stored in hadoop master node
+data file can be store in s3 and location is specified in the jar input variable
+or data file can be stored in hdfs and location is specified in jar file
+
+====
+for pyspark, jupyter notebook is there
+for scala, zeepline notebook is there
+=================================
+=============================

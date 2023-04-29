@@ -1,0 +1,75 @@
+spark store data in 3 types of ds:
+dataframes
+datasets
+rdd(resilient distributed datasets)
+
+df and ds ultimatily compiled down to rdd
+
+rdd is:
+resilient
+distributed
+partitioned(can be controlled)
+immutable
+collection of data
+
+
+2 things to control the degree of parallelism:-
+number of partitions
+number of executors
+
+like if we have 10 partitions and 2 executors the each executors get 5 partitions to process
+
+-----------------
+spark computation will be in two types:-
+transformation
+action
+
+transformation happens when df has to be manipulated and kept inside the executors, not send to other executors.
+they keep the transform data with themself.
+
+action happens when they send to other executors. action triggers the job
+
+spark breaks the job into the stages.
+before the movement of data, sort and shuffle activities happens
+
+untill there is no need for data movement, spark perform all the task in single stage
+
+when there is a need to move the data across the executors spark make a new stage.
+like in case of groupby and join operation, there will be a new stage.
+-------------------
+in order to change df, we have to instruct spark how we have to modify df in order to make a new df
+val diviby2 = myrange.where("number % 2 = 0")
+
+they are lazy in nature and 
+change be chained together like
+val diviby235 = myrange.where("number % 2 = 0").where("number % 3 = 0")
+
+2 types of transformation:-
+narrow dependencies (one partition contributes to atmost one output partitions), like filtering, divisible by 2
+wide dependencies (one partition contributes to many output partitions), like ordering
+
+
+transformation allows us to build up our logical transformation plan, to trigger computation, we run action
+
+action is of 3 types:
+1) action to view data in console
+2) action to collect data to native objects in the respective language like in list or array
+3) action to write to output data source like file, hive table
+
+collect(), count(), take(), saveAsTextFile()
+
+===============
+instead of modifying data immediatly when encountering transformation. spark build a plan of transformation apply to the df.
+this plan or the chain of tranformation is only executed when an action is called.
+=========================
+caching:-
+df.cache()
+df.persist()
+===============
+shared variable:-
+1) broadcast variables
+	allows programmer to keep read only variable cached on each machine rather than shipping a copy with the task
+
+2) accumulators
+	can only be read by the driver and all the executer can only add to it.
+

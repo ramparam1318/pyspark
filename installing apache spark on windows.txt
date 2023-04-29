@@ -1,0 +1,20 @@
+download the apache spark from https://spark.apache.org/downloads.html download hyperlink
+
+tar -xzf it or extract it
+
+download the winutil for hadoop:-
+https://github.com/steveloughran/winutils/blob/master/hadoop-2.7.1/bin/winutils.exe
+
+download jdk and install it
+
+make the variable HADOOP_HOME
+C:\Users\ram11\Downloads\spark-3.3.2-bin-hadoop3\
+it will search at $HADOOP_HOME%/bin/winutils.exe
+
+make another variable JAVA_HOME
+C:\Program Files\Java\jdk-20
+
+make another variable SPARK_HOME
+C:\Users\ram11\Downloads\spark-3.3.2-bin-hadoop3
+
+some warning of pagesize comes, we can ignore it.
